@@ -1,4 +1,4 @@
-name = philosophers
+name = philo
 
 src = statics.c main.c
 

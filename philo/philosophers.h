@@ -5,6 +5,13 @@
 # include <unistd.h>
 # include <stdio.h>
 
+# define FORK "has taken a fork"
+# define THINK "is thinking"
+# define SLEEP "is sleeping"
+# define EAT "is eating"
+# define DIE "died"
+
+
 typedef struct philo
 {
 
