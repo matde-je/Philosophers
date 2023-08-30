@@ -1,10 +1,22 @@
-name = philo
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: matilde <matilde@student.42.fr>            +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/28 11:26:11 by matilde           #+#    #+#              #
+#    Updated: 2023/08/30 17:29:56 by matilde          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
 
-src = statics.c main.c
+NAME = philo
 
-obj = $(SRC:.c=.o)
+SRC = main.c time_end.c init.c threads.c actions.c
 
-cc = cc -Wall -Wextra -Werror -g fsanitize=address
+OBJ = $(SRC:.c=.o)
+
+CC = cc -Wall -Wextra -Werror -g -pthread #-fsanitize=address
 
 all: $(NAME)
 
