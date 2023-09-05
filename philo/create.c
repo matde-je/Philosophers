@@ -6,24 +6,25 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matilde           #+#    #+#             */
-/*   Updated: 2023/09/05 16:18:55 by matilde          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:30:24 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
+//size of a struct is the sum of the sizes of its members
 int	create_data(t_data *data, int argc, char **argv)
 {
 	data->philo_num = (int) ft_atoi(argv[1]);
 	data->tid = malloc(sizeof(pthread_t) * data->philo_num);
 	if (!data->tid)
-		return (error("error", data));
+		return (error("error in malloc of tid", data));
 	data->forks = malloc(sizeof(pthread_mutex_t) * data->philo_num);
 	if (!data->forks)
-		return (error("error", data));
+		return (error("error in malloc of forks", data));
 	data->philos = malloc(sizeof(t_philo) * data->philo_num);
 	if (!data->philos)
-		return (error("error", data));
+		return (error("error in malloc of philos", data));
 	data->death_time = (unsigned long int) ft_atoi(argv[2]);
 	data->eat_time = (unsigned long int) ft_atoi(argv[3]);
 	data->sleep_time = (unsigned long int) ft_atoi(argv[4]);

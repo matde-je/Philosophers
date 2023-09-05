@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:07 by matilde           #+#    #+#             */
-/*   Updated: 2023/09/05 16:19:16 by matilde          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:24:33 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ void			eat(t_philo *philo);
 void			*supervisor(void *philo_ptr);
 void			*monitor(void *data_ptr);
 void			*routine(void *philo_ptr);
-int				thread_init(t_data *data);
+int				create_thread(t_data *data);
 int				case_one(t_data *data);
 
 #endif

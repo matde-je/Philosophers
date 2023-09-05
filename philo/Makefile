@@ -6,7 +6,7 @@
 #    By: matilde <matilde@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/09/05 15:51:58 by matilde           #+#    #+#              #
-#    Updated: 2023/09/05 15:52:01 by matilde          ###   ########.fr        #
+#    Updated: 2023/09/05 16:25:59 by matilde          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 SOURCES = main.c create.c end_time.c actions.c threads.c 
 
 OBJECTS	=	$(SOURCES:.c=.o)
-CC	=	gcc -g -pthread -fsanitize=address
+CC	=	cc -Wall -Wextra -Werror -g -pthread -fsanitize=address
 
 all:		$(NAME)
 

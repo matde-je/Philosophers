@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:35:05 by matilde           #+#    #+#             */
-/*   Updated: 2023/09/05 16:19:01 by matilde          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:30:41 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ unsigned int	get_time(void)
 
 	if (gettimeofday(&tv, NULL))
 		return (error("gettimeofday() error", NULL));
-	return ((tv.tv_sec * (long unsigned int)1000) + (tv.tv_usec / 1000));
+	return ((tv.tv_sec * (unsigned long int)1000) + (tv.tv_usec / 1000));
 }
 
 void	ft_exit(t_data *data)

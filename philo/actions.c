@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:33 by matilde           #+#    #+#             */
-/*   Updated: 2023/09/05 16:19:10 by matilde          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:23:00 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,4 +66,3 @@ void	drop_forks(t_philo *philo)
 	messages(3, philo);
 	ft_usleep(philo->data->sleep_time);
 }
-

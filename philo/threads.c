@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/09/05 16:18:38 by matilde          ###   ########.fr       */
+/*   Updated: 2023/09/05 16:27:20 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,14 +67,14 @@ void	*routine(void *philo_ptr)
 	return ((void *)0);
 }
 
-int	thread_init(t_data *data)
+int	create_thread(t_data *data)
 {
 	int			i;
-	pthread_t	t0;
+	pthread_t	tid;
 
 	data->start_time = get_time();
 	if (data->meals_nb > 0)
-		if (pthread_create(&t0, NULL, &monitor, &data->philos[0]))
+		if (pthread_create(&tid, NULL, &monitor, &data->philos[0]))
 			return (error("error in thread creation", data));
 	i = -1;
 	while (++i < data->philo_num)
@@ -86,8 +86,8 @@ int	thread_init(t_data *data)
 	i = -1;
 	while (++i < data->philo_num)
 		if (pthread_join(data->tid[i], NULL))
-			return (error("error in suspendig exec of thread", data));
-	pthread_detach(t0);
+			return (error("error in suspending exec of thread", data));
+	pthread_detach(tid);
 	return (0);
 }
 
