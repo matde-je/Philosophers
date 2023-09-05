@@ -5,101 +5,100 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/08/10 15:34:47 by matilde           #+#    #+#             */
-/*   Updated: 2023/08/30 14:44:49 by matilde          ###   ########.fr       */
+/*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
+/*   Updated: 2023/09/05 16:18:38 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
+#include "philo.h"
 
-void	*monitor(void *arg)
+void	*monitor(void *data_ptr)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *) arg;
+	philo = (t_philo *) data_ptr;
 	while (philo->data->dead == 0)
 	{
 		pthread_mutex_lock(&philo->lock);
-		if (data()->finished >= data()->philo_num)
-			data()->dead = 1;
+		if (philo->data->finished >= philo->data->philo_num)
+			philo->data->dead = 1;
 		pthread_mutex_unlock(&philo->lock);
 	}
-	return (NULL);
+	return ((void *)0);
 }
 
-// eat think routine of each philo and send to supervisor
-//calculate the time to die by adding the current time because they will eat
-// and it is also sent to supervisor to check if dead
-//type cast to assign a value to the philo pointer variable
-void	*routine(void *arg)
+void	*supervisor(void *philo_ptr)
 {
 	t_philo	*philo;
 
-	philo = (t_philo *) arg;
-	philo->time_to_die = data()->time_to_die + get_time();
+	philo = (t_philo *) philo_ptr;
+	while (philo->data->dead == 0)
+	{
+		pthread_mutex_lock(&philo->lock);
+		if (get_time() >= philo->time_to_die && philo->eating == 0)
+			messages(1, philo);
+		if (philo->eat_count == philo->data->meals_nb)
+		{
+			pthread_mutex_lock(&philo->data->lock);
+			philo->data->finished++;
+			philo->eat_count++;
+			pthread_mutex_unlock(&philo->data->lock);
+		}
+		pthread_mutex_unlock(&philo->lock);
+	}
+	return ((void *)0);
+}
+
+void	*routine(void *philo_ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *) philo_ptr;
+	philo->time_to_die = philo->data->death_time + get_time();
 	if (pthread_create(&philo->t1, NULL, &supervisor, (void *)philo))
-		return (NULL);
-	while (data()->dead == 0)
+		return ((void *)1);
+	while (philo->data->dead == 0)
 	{
 		eat(philo);
 		messages(4, philo);
 	}
 	if (pthread_join(philo->t1, NULL))
-		return (NULL);
-	return (NULL);
+		return ((void *)1);
+	return ((void *)0);
 }
 
-// quando o tempo de morte for excedido e o filo n esta a comer, morre.
-//se ja atingiu o max meals, mais um para os filos finished
-//max meals is global, 
-// philo->eat_count++; so it doesnt enter the if condition again
-void	*supervisor(void *arg)
+int	thread_init(t_data *data)
 {
-	t_philo	*philo;
-
-	philo = (t_philo *) arg;
-	while (data()->dead == 0)
-	{
-		pthread_mutex_lock(&philo->lock);
-		if (get_time() >= philo->time_to_die && philo->eating == 0)
-			messages(1, philo);
-		if (philo->eat_count == data()->min_meals)
-		{
-			pthread_mutex_lock(&data()->lock);
-			data()->finished++;
-			philo->eat_count++;
-			pthread_mutex_unlock(&data()->lock);
-		}
-		pthread_mutex_unlock(&philo->lock);
-	}
-	return (NULL);
-}
-
-void	create_thread(void)
-{
-	pthread_t	tid;
 	int			i;
+	pthread_t	t0;
 
-	data()->start_time = get_time();
-	if (data()->min_meals > 0)
-		if (pthread_create(&tid, NULL, &monitor, &data()->philos[0]) != 0)
-			error("Error in thread creation");
+	data->start_time = get_time();
+	if (data->meals_nb > 0)
+		if (pthread_create(&t0, NULL, &monitor, &data->philos[0]))
+			return (error("error in thread creation", data));
 	i = -1;
-	while (++i < data()->philo_num)
+	while (++i < data->philo_num)
 	{
-		if (pthread_create(&data()->tid[i], NULL, &routine, &data()->philos[i]))
-			error("Error in thread creation for philos");
+		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
+			return (error("error in thread creation", data));
 		ft_usleep(1);
 	}
 	i = -1;
-	while (++i < data()->philo_num)
-		if (pthread_join(data()->tid[i], NULL) != 0)
-			error("Error in suspending exec of thread");
-	pthread_detach(tid);
+	while (++i < data->philo_num)
+		if (pthread_join(data->tid[i], NULL))
+			return (error("error in suspendig exec of thread", data));
+	pthread_detach(t0);
+	return (0);
 }
-//when a detached thread terminates, its resources are automatically released
-//back to the system without the need for another thread to join with the 
-//terminated thread
-//void*: This indicates the return type of the function
-//(*): This specifies that we are dealing with a function pointer.
-//(void*): This indicates the type of the function's argument. 
+
+int	case_one(t_data *data)
+{
+	data->start_time = get_time();
+	if (pthread_create(&data->tid[0], NULL, &routine, &data->philos[0]))
+		return (error("thread creation error", data));
+	pthread_detach(data->tid[0]);
+	while (data->dead == 0)
+		ft_usleep(0);
+	ft_exit(data);
+	return (0);
+}

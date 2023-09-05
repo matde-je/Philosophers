@@ -5,38 +5,38 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/28 11:26:01 by matde-je          #+#    #+#             */
-/*   Updated: 2023/08/30 13:59:38 by matilde          ###   ########.fr       */
+/*   Created: 2023/07/16 17:27:28 by matilde           #+#    #+#             */
+/*   Updated: 2023/09/05 16:18:48 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "philosophers.h"
-
-t_data	*data(void)
-{
-	static t_data	var;
-
-	return (&var);
-}
+#include "philo.h"
 
 int	main(int argc, char **argv)
 {
-	check_args(argc, argv);
-	create_data(argc, argv);
-	create_thread();
-	clear_free();
+	t_data	data;
+
+	if (check_args(argc, argv) == 1)
+		return (1);
+	if (create(&data, argc, argv) == 1)
+		return (1);
+	if (data.philo_num == 1)
+		return (case_one(&data));
+	if (thread_init(&data))
+		return (1);
+	ft_exit(&data);
 	return (0);
 }
 
-void	check_args(int argc, char	**argv)
+int	check_args(int argc, char	**argv)
 {
 	int	count;
 	int	count2;
 
-	if (argv[1][0] == 0 || (argc != 6 && argc != 5))
+	if (argv[1][0] == '0' || (argc != 6 && argc != 5))
 	{
 		printf("Invalid args\n");
-		exit(1);
+		return (1);
 	}
 	count = 0;
 	while (argv[++count])
@@ -49,10 +49,11 @@ void	check_args(int argc, char	**argv)
 			else if ((argv[count][count2] < 48 || argv[count][count2] > 57))
 			{
 				printf("Invalid args\n");
-				exit(1);
+				return (1);
 			}
 		}
 	}
+	return (0);
 }
 
 int	ft_atoi(char *str)

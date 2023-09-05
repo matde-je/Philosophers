@@ -5,30 +5,28 @@
 #                                                     +:+ +:+         +:+      #
 #    By: matilde <matilde@student.42.fr>            +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/07/28 11:26:11 by matilde           #+#    #+#              #
-#    Updated: 2023/08/30 17:29:56 by matilde          ###   ########.fr        #
+#    Created: 2023/09/05 15:51:58 by matilde           #+#    #+#              #
+#    Updated: 2023/09/05 15:52:01 by matilde          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
+SOURCES = main.c create.c end_time.c actions.c threads.c 
 
-SRC = main.c time_end.c init.c threads.c actions.c
+OBJECTS	=	$(SOURCES:.c=.o)
+CC	=	gcc -g -pthread -fsanitize=address
 
-OBJ = $(SRC:.c=.o)
+all:		$(NAME)
 
-CC = cc -Wall -Wextra -Werror -g -pthread #-fsanitize=address
+$(NAME):	$(OBJECTS)
+			$(CC) $(OBJECTS) -o $(NAME)
 
-all: $(NAME)
-
-$(NAME):	$(OBJ)
-			$(CC) $(OBJ) -o $(NAME)
-
-clean:
-			rm -f $(OBJ)
+clean:		
+			rm -f $(OBJECTS)
 
 fclean:		clean
 			rm -f $(NAME)
 
-re: 		fclean $(NAME)
+re:			fclean $(NAME)
 
-.PHONY: all clean fclean re
+.PHONY:	all clean fclean re
