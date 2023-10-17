@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/07/16 17:27:07 by matilde           #+#    #+#             */
-/*   Updated: 2023/09/05 16:24:33 by matilde          ###   ########.fr       */
+/*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
+/*   Updated: 2023/10/17 17:14:14 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,6 @@ void			ft_usleep(long unsigned int time);
 void			ft_exit(t_data *data);
 
 void			messages(int i, t_philo *philo);
-void			take_forks(t_philo *philo);
-void			drop_forks(t_philo *philo);
 void			eat(t_philo *philo);
 void			*supervisor(void *philo_ptr);
 void			*monitor(void *data_ptr);

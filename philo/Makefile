@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: matilde <matilde@student.42.fr>            +#+  +:+       +#+         #
+#    By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/09/05 15:51:58 by matilde           #+#    #+#              #
-#    Updated: 2023/09/05 16:25:59 by matilde          ###   ########.fr        #
+#    Created: 2023/10/03 20:20:01 by matde-je          #+#    #+#              #
+#    Updated: 2023/10/03 20:20:06 by matde-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -14,7 +14,7 @@ NAME = philo
 SOURCES = main.c create.c end_time.c actions.c threads.c 
 
 OBJECTS	=	$(SOURCES:.c=.o)
-CC	=	cc -Wall -Wextra -Werror -g -pthread -fsanitize=address
+CC	=	cc -Wall -Wextra -Werror -g -pthread
 
 all:		$(NAME)
 
