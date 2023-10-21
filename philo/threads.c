@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/21 14:47:14 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/21 21:48:59 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	*monitor(void *data_ptr)
 	return ((void *)0);
 }
 
-void	*routine(void *philo_ptr)
+void	*supervisor(void *philo_ptr)
 {
 	t_philo	*philo;
 
@@ -47,19 +47,35 @@ void	*routine(void *philo_ptr)
 			pthread_mutex_unlock(&philo->lock);
 			break ;
 		}
+		pthread_mutex_unlock(&philo->lock);
 		if (get_time() >= philo->time_to_die && philo->eating == 0)
 		{
-			pthread_mutex_unlock(&philo->lock);
 			messages(1, philo);
 			break ;
 		}
-		pthread_mutex_lock(&philo->data->lock);
 		if (philo->eat_count == philo->data->meals_nb)
 		{
 			philo->data->finished++;
 			philo->eat_count++;
 		}
-		pthread_mutex_unlock(&philo->data->lock);
+	}
+	return ((void *)0);
+}
+
+void	*routine(void *philo_ptr)
+{
+	t_philo	*philo;
+
+	philo = (t_philo *) philo_ptr;
+	while (1)
+	{
+		pthread_mutex_lock(&philo->lock);
+		if (philo->data->dead == 1)
+		{
+			pthread_mutex_unlock(&philo->lock);
+			break ;
+		}
+		pthread_mutex_unlock(&philo->lock);
 		eat(philo);
 		messages(4, philo);
 	}
@@ -80,13 +96,28 @@ int	create_thread(t_data *data)
 	i = -1;
 	while (++i < data->philo_num)
 	{
+		if (pthread_create(&data->philos[i].t1, NULL, &supervisor, \
+			&data->philos[i]))
+			return (error("error in thread creation", data));
+		//ft_usleep(0);
+	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
 			return (error("error in thread creation", data));
+		ft_usleep(10);
 	}
 	i = -1;
 	while (++i < data->philo_num)
 	{
 		if (pthread_join(data->tid[i], NULL))
+			return (error("error in suspending exec of thread", data));
+	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_join(data->philos[i].t1, NULL))
 			return (error("error in suspending exec of thread", data));
 	}
 	if (data->meals_nb > 0)

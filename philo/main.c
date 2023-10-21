@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:28 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/03 20:14:32 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/21 21:07:56 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,8 @@ int	main(int argc, char **argv)
 		return (case_one(&data));
 	if (create_thread(&data))
 		return (1);
-	ft_exit(&data);
+	if (data.dead == 0)
+		ft_exit(&data);
 	return (0);
 }
 
