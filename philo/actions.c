@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:18:57 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/20 11:49:45 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/21 14:48:29 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,15 @@ void	messages(int i, t_philo *philo)
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
+	pthread_mutex_lock(&philo->lock);
 	if (i == 1 && philo->data->dead == 0)
 	{
 		printf("%u %i %s\n", time, philo->id, DIE);
 		philo->data->dead = 1;
+		pthread_mutex_unlock(&philo->lock);
 	}
-	else if (i == 2)
+	pthread_mutex_unlock(&philo->lock);
+	if (i == 2)
 		printf("%u %i %s\n", time, philo->id, EAT);
 	else if (i == 3)
 		printf("%u %i %s\n", time, philo->id, SLEEP);
