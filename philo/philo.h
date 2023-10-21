@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/17 17:14:14 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/20 11:52:12 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,6 @@ void			ft_exit(t_data *data);
 
 void			messages(int i, t_philo *philo);
 void			eat(t_philo *philo);
-void			*supervisor(void *philo_ptr);
 void			*monitor(void *data_ptr);
 void			*routine(void *philo_ptr);
 int				create_thread(t_data *data);
