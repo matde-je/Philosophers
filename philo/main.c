@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:28 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/21 21:07:56 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:46:35 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,8 +24,7 @@ int	main(int argc, char **argv)
 		return (case_one(&data));
 	if (create_thread(&data))
 		return (1);
-	if (data.dead == 0)
-		ft_exit(&data);
+ 	ft_exit(&data);
 	return (0);
 }
 

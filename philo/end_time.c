@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:14 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/21 21:53:43 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:41:58 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ void	ft_exit(t_data *data)
 	// 	data->philos[i].data->dead = 1;
 	// 	pthread_mutex_unlock(&data->philos[i].lock);
 	// }
-	ft_usleep(10);
+	//ft_usleep(10);
 	i = -1;
 	while (++i < data->philo_num)
 	{
@@ -57,7 +57,7 @@ void	ft_exit(t_data *data)
 		free(data->forks);
 	if (data->philos)
 		free(data->philos);
-	exit(0);
+	//exit(0);
 }
 
 int	error(char *str, t_data *data)

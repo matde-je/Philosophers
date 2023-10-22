@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   actions.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
+/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:18:57 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/21 21:53:02 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/22 16:40:45 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,23 +15,15 @@
 void	messages(int i, t_philo *philo)
 {
 	unsigned int	time;
-	int e;
 
 	pthread_mutex_lock(&philo->data->write);
 	time = get_time() - philo->data->start_time;
-	if (i == 1 && philo->data->dead == 0)
-	{
-		e = -1;
-		while (++e < philo->data->philo_num)
-		{
-			pthread_mutex_lock(&philo[e].lock);
-			philo[e].data->dead = 1;
-			pthread_mutex_unlock(&philo[e].lock);
-		}
-		printf("%u %i %s\n", time, philo->id, DIE);
-		pthread_mutex_unlock(&philo->data->write);
-		ft_exit(philo->data);
-	}
+	// if (i == 1)
+	// {
+	// 	printf("%u %i %s\n", time, philo->id, DIE);
+	// 	pthread_mutex_unlock(&philo->data->write);
+	// 	ft_exit(philo->data);
+	// }
 	if (i == 2)
 		printf("%u %i %s\n", time, philo->id, EAT);
 	else if (i == 3)
