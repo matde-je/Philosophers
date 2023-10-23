@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:14 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/22 16:41:58 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/23 15:28:42 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,14 +35,6 @@ void	ft_exit(t_data *data)
 {
 	int	i;
 
-	//i = -1;
-	// while (++i < data->philo_num)
-	// {
-	// 	pthread_mutex_lock(&data->philos[i].lock);
-	// 	data->philos[i].data->dead = 1;
-	// 	pthread_mutex_unlock(&data->philos[i].lock);
-	// }
-	//ft_usleep(10);
 	i = -1;
 	while (++i < data->philo_num)
 	{
@@ -57,7 +49,6 @@ void	ft_exit(t_data *data)
 		free(data->forks);
 	if (data->philos)
 		free(data->philos);
-	//exit(0);
 }
 
 int	error(char *str, t_data *data)
