@@ -6,7 +6,7 @@
 /*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/23 15:26:59 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/24 14:20:37 by matilde          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	*monitor(void *data_ptr)
 			philo->data->dead = 1;
 			pthread_mutex_unlock(&philo->data->lock);
 		}
-		pthread_mutex_unlock(&philo->lock);
+		pthread_mutex_lock(&philo->lock);
 	}
 	pthread_mutex_unlock(&philo->data->lock);
-	return ((void *)0);
+	return (NULL);
 }
 
 void	*supervisor(void *philo_ptr)
@@ -46,13 +46,12 @@ void	*supervisor(void *philo_ptr)
 	{
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 1)
-		{
-			pthread_mutex_unlock(&philo->data->lock);
 			break ;
-		}
 		pthread_mutex_unlock(&philo->data->lock);
+		pthread_mutex_lock(&philo->lock);
 		if (get_time() >= philo->time_to_die && philo->eating == 0)
 		{
+			pthread_mutex_unlock(&philo->lock);
 			messages(1, philo);
 			break ;
 		}
@@ -64,7 +63,8 @@ void	*supervisor(void *philo_ptr)
 		}
 		pthread_mutex_unlock(&philo->lock);
 	}
-	return ((void *)0);
+	pthread_mutex_unlock(&philo->data->lock);
+	return (NULL);
 }
 
 void	*routine(void *philo_ptr)
@@ -77,7 +77,6 @@ void	*routine(void *philo_ptr)
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 1)
 		{
-			pthread_mutex_unlock(&philo->data->lock);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->data->lock);
@@ -85,12 +84,14 @@ void	*routine(void *philo_ptr)
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 0)
 		{
-			pthread_mutex_unlock(&philo->data->lock);
 			messages(4, philo);
 		}
+		else
+			break ;
 		pthread_mutex_unlock(&philo->data->lock);
 	}
-	return ((void *)0);
+	pthread_mutex_unlock(&philo->data->lock);
+	return (NULL);
 }
 
 int	create_thread(t_data *data)
@@ -135,19 +136,5 @@ int	create_thread(t_data *data)
 		if (pthread_join(tid, NULL))
 			return (error("error in suspending exec of thread", data));
 	}
-	return (0);
-}
-
-int	case_one(t_data *data)
-{
-	data->start_time = get_time();
-	if (pthread_create(&data->tid[0], NULL, &routine, &data->philos[0]))
-		return (error("thread creation error", data));
-	if (pthread_create(&data->philos[0].t1, NULL, &supervisor, \
-		&data->philos[0]))
-		return (error("thread creation error", data));
-	pthread_detach(data->philos[0].t1);
-	pthread_detach(data->tid[0]);
-	ft_exit(data);
 	return (0);
 }
