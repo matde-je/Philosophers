@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   threads.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 14:20:37 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/24 16:55:00 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ void	*monitor(void *data_ptr)
 			philo->data->dead = 1;
 			pthread_mutex_unlock(&philo->data->lock);
 		}
-		pthread_mutex_lock(&philo->lock);
+		pthread_mutex_unlock(&philo->lock);
 	}
 	pthread_mutex_unlock(&philo->data->lock);
 	return (NULL);
@@ -46,7 +46,10 @@ void	*supervisor(void *philo_ptr)
 	{
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 1)
+		{
+			pthread_mutex_unlock(&philo->data->lock);
 			break ;
+		}
 		pthread_mutex_unlock(&philo->data->lock);
 		pthread_mutex_lock(&philo->lock);
 		if (get_time() >= philo->time_to_die && philo->eating == 0)
@@ -55,16 +58,19 @@ void	*supervisor(void *philo_ptr)
 			messages(1, philo);
 			break ;
 		}
-		pthread_mutex_lock(&philo->lock);
-		if (philo->eat_count == philo->data->meals_nb)
-		{
-			philo->data->finished++;
-			philo->eat_count++;
-		}
-		pthread_mutex_unlock(&philo->lock);
+		supervisor2(philo);
 	}
-	pthread_mutex_unlock(&philo->data->lock);
 	return (NULL);
+}
+
+void	supervisor2(t_philo *philo)
+{
+	if (philo->eat_count == philo->data->meals_nb)
+	{
+		philo->data->finished++;
+		philo->eat_count++;
+	}
+	pthread_mutex_unlock(&philo->lock);
 }
 
 void	*routine(void *philo_ptr)
@@ -77,48 +83,23 @@ void	*routine(void *philo_ptr)
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 1)
 		{
+			pthread_mutex_unlock(&philo->data->lock);
 			break ;
 		}
 		pthread_mutex_unlock(&philo->data->lock);
 		eat(philo);
-		pthread_mutex_lock(&philo->data->lock);
-		if (philo->data->dead == 0)
+		if (messages(4, philo) == 1)
 		{
-			messages(4, philo);
-		}
-		else
 			break ;
-		pthread_mutex_unlock(&philo->data->lock);
+		}
 	}
-	pthread_mutex_unlock(&philo->data->lock);
 	return (NULL);
 }
 
-int	create_thread(t_data *data)
+int	create_thread2(t_data *data, pthread_t tid)
 {
-	int			i;
-	pthread_t	tid;
+	int	i;
 
-	data->start_time = get_time();
-	if (data->meals_nb > 0)
-	{
-		if (pthread_create(&tid, NULL, &monitor, &data->philos[0]))
-			return (error("error in thread creation", data));
-	}
-	i = -1;
-	while (++i < data->philo_num)
-	{
-		if (pthread_create(&data->philos[i].t1, NULL, &supervisor, \
-			&data->philos[i]))
-			return (error("error in thread creation", data));
-	}
-	i = -1;
-	while (++i < data->philo_num)
-	{
-		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
-			return (error("error in thread creation", data));
-		ft_usleep(1);
-	}
 	i = -1;
 	while (++i < data->philo_num)
 	{

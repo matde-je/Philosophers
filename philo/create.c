@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/21 21:24:56 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/23 19:40:00 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,5 +71,34 @@ int	create(t_data *data, int argc, char **argv)
 	if (create_data(data, argc, argv))
 		return (1);
 	create_philo_fork(data);
+	return (0);
+}
+
+int	create_thread(t_data *data)
+{
+	int			i;
+	pthread_t	tid;
+
+	data->start_time = get_time();
+	if (data->meals_nb > 0)
+	{
+		if (pthread_create(&tid, NULL, &monitor, &data->philos[0]))
+			return (error("error in thread creation", data));
+	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_create(&data->philos[i].t1, NULL, &supervisor, \
+			&data->philos[i]))
+			return (error("error in thread creation", data));
+	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
+			return (error("error in thread creation", data));
+		ft_usleep(1);
+	}
+	create_thread2(data, tid);
 	return (0);
 }

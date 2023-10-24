@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:28 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 12:09:20 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/23 19:40:21 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,16 @@ int	main(int argc, char **argv)
 		return (1);
 	if (create(&data, argc, argv) == 1)
 		return (1);
-	//if (data.philo_num == 1)
+	if (data.philo_num == 1)
+	{
+		printf("0 1 has taken a fork\n");
+		printf("%lu 1 died\n", data.death_time);
+		ft_exit(&data);
+		return (0);
+	}
 	if (create_thread(&data))
 		return (1);
- 	ft_exit(&data);
+	ft_exit(&data);
 	return (0);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   philo.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 14:23:44 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/24 15:40:53 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,11 +67,15 @@ unsigned long int	get_time(void);
 int					ft_usleep(long unsigned int time);
 void				ft_exit(t_data *data);
 
-int				messages(int i, t_philo *philo);
+int					messages(int i, t_philo *philo);
+int					messages2(int i, t_philo *philo, unsigned int time);
 void				eat(t_philo *philo);
 void				*monitor(void *data_ptr);
 void				*routine(void *philo_ptr);
 void				*supervisor(void *data_ptr);
 int					create_thread(t_data *data);
+void				eat2(t_philo *philo);
+int					create_thread2(t_data *data, pthread_t tid);
+void				supervisor2(t_philo *philo_ptr);
 
 #endif
