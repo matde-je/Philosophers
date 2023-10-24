@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:28 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/23 19:40:21 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/24 17:12:54 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_args(int argc, char	**argv)
 	int	count;
 	int	count2;
 
-	if (argv[1][0] == '0' || (argc != 6 && argc != 5))
+	if ((argc != 6 && argc != 5) || argv[1][0] == '0')
 	{
 		printf("Invalid args\n");
 		return (1);
