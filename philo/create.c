@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/23 19:40:00 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:54:29 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ int	create_data(t_data *data, int argc, char **argv)
 		data->meals_nb = -1;
 	data->dead = 0;
 	data->finished = 0;
-	pthread_mutex_init(&data->write, NULL);
 	pthread_mutex_init(&data->lock, NULL);
 	return (0);
 }

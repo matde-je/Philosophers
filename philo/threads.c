@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 16:55:00 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:41:40 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,15 +22,11 @@ void	*monitor(void *data_ptr)
 		pthread_mutex_lock(&philo->data->lock);
 		if (philo->data->dead == 1)
 			break ;
-		pthread_mutex_unlock(&philo->data->lock);
-		pthread_mutex_lock(&philo->lock);
 		if (philo->data->finished >= philo->data->philo_num)
 		{
-			pthread_mutex_lock(&philo->data->lock);
 			philo->data->dead = 1;
-			pthread_mutex_unlock(&philo->data->lock);
 		}
-		pthread_mutex_unlock(&philo->lock);
+		pthread_mutex_unlock(&philo->data->lock);
 	}
 	pthread_mutex_unlock(&philo->data->lock);
 	return (NULL);
@@ -65,11 +61,13 @@ void	*supervisor(void *philo_ptr)
 
 void	supervisor2(t_philo *philo)
 {
+	pthread_mutex_lock(&philo->data->lock);
 	if (philo->eat_count == philo->data->meals_nb)
 	{
 		philo->data->finished++;
 		philo->eat_count++;
 	}
+	pthread_mutex_unlock(&philo->data->lock);
 	pthread_mutex_unlock(&philo->lock);
 }
 
@@ -87,7 +85,7 @@ void	*routine(void *philo_ptr)
 			break ;
 		}
 		pthread_mutex_unlock(&philo->data->lock);
-		eat(philo);
+		eat(philo, philo->id % 2);
 		if (messages(4, philo) == 1)
 		{
 			break ;

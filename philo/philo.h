@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 15:40:53 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/25 13:43:54 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ typedef struct s_data
 	long unsigned int	start_time;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		lock;
-	pthread_mutex_t		write;
 }						t_data;
 
 int					check_args(int argc, char	**argv);
@@ -69,12 +68,12 @@ void				ft_exit(t_data *data);
 
 int					messages(int i, t_philo *philo);
 int					messages2(int i, t_philo *philo, unsigned int time);
-void				eat(t_philo *philo);
+void				eat(t_philo *philo, int odd);
 void				*monitor(void *data_ptr);
 void				*routine(void *philo_ptr);
 void				*supervisor(void *data_ptr);
 int					create_thread(t_data *data);
-void				eat2(t_philo *philo);
+void				eat2(t_philo *philo, int odd);
 int					create_thread2(t_data *data, pthread_t tid);
 void				supervisor2(t_philo *philo_ptr);
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   end_time.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: matilde <matilde@student.42.fr>            +#+  +:+       +#+        */
+/*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:14 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/23 15:28:42 by matilde          ###   ########.fr       */
+/*   Updated: 2023/10/25 13:56:04 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ void	ft_exit(t_data *data)
 		pthread_mutex_destroy(&data->philos[i].lock);
 	}
 	pthread_mutex_destroy(&data->lock);
-	pthread_mutex_destroy(&data->write);
 	if (data->tid)
 		free(data->tid);
 	if (data->forks)
