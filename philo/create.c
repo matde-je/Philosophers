@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/25 13:54:29 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:44:05 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	create_thread(t_data *data)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
 			return (error("error in thread creation", data));
-		ft_usleep(1);
 	}
 	create_thread2(data, tid);
 	return (0);

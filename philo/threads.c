@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/25 13:41:40 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/26 20:25:30 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,8 +74,10 @@ void	supervisor2(t_philo *philo)
 void	*routine(void *philo_ptr)
 {
 	t_philo	*philo;
+	int		time;
 
 	philo = (t_philo *) philo_ptr;
+	ft_usleep((philo->data->eat_time / 2) * (philo->id % 2 != 0));
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->lock);
@@ -90,6 +92,13 @@ void	*routine(void *philo_ptr)
 		{
 			break ;
 		}
+		if (philo->data->eat_time > philo->data->sleep_time)
+		{
+			time = philo->data->eat_time - philo->data->sleep_time;
+			ft_usleep(time + time / 5);
+		}
+		else
+			ft_usleep(philo->data->eat_time / 2);
 	}
 	return (NULL);
 }

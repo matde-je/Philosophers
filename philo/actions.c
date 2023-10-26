@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:18:57 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/25 13:43:44 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/26 19:42:28 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,9 +17,9 @@ int	messages(int i, t_philo *philo)
 	unsigned int	time;
 	int				e;
 
+	pthread_mutex_lock(&philo->data->lock);
 	time = get_time() - philo->data->start_time;
 	e = 1;
-	pthread_mutex_lock(&philo->data->lock);
 	if (i == 1 && philo->data->dead == 0)
 	{
 		philo->data->dead = 1;
