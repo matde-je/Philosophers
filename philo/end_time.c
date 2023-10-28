@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:14 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/25 13:56:04 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:31:28 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,9 @@ int	ft_usleep(long unsigned int time)
 
 	start = get_time();
 	while ((get_time() - start) < time)
+	{
 		ft_usleep(time / 10);
+	}
 	return (0);
 }
 

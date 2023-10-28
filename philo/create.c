@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/26 19:44:05 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:53:11 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,18 @@ int	create_data(t_data *data, int argc, char **argv)
 		data->meals_nb = (int) ft_atoi(argv[5]);
 	else
 		data->meals_nb = -1;
+	if (data->death_time > 2147483647 || data->eat_time > 2147483647 \
+		|| data->sleep_time > 2147483647 || data->meals_nb > 2147483647)
+	{
+		error("Invalid args\n", data);
+		return (1);
+	}
+	create_data2(data);
+	return (0);
+}
+
+int	create_data2(t_data *data)
+{
 	data->dead = 0;
 	data->finished = 0;
 	pthread_mutex_init(&data->lock, NULL);
@@ -63,14 +75,6 @@ void	create_philo_fork(t_data *data)
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i - 1];
 	}
-}
-
-int	create(t_data *data, int argc, char **argv)
-{
-	if (create_data(data, argc, argv))
-		return (1);
-	create_philo_fork(data);
-	return (0);
 }
 
 int	create_thread(t_data *data)

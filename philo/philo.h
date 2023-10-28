@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/25 13:43:54 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:51:21 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,10 @@ int					create_thread(t_data *data);
 void				eat2(t_philo *philo, int odd);
 int					create_thread2(t_data *data, pthread_t tid);
 void				supervisor2(t_philo *philo_ptr);
+void				routine2(t_philo *philo);
+void				eat_even(t_philo *philo);
+void				eat_odd(t_philo *philo);
+void				routine3(t_philo *philo);
+int					create_data2(t_data *data);
 
 #endif

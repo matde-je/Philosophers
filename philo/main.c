@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:28 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/24 17:12:54 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/28 16:23:43 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,4 +85,28 @@ int	ft_atoi(char *str)
 		c++;
 	}
 	return (res * s);
+}
+
+int	create_thread2(t_data *data, pthread_t tid)
+{
+	int	i;
+
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_join(data->tid[i], NULL))
+			return (error("error in suspending exec of thread", data));
+	}
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_join(data->philos[i].t1, NULL))
+			return (error("error in suspending exec of thread", data));
+	}
+	if (data->meals_nb > 0)
+	{
+		if (pthread_join(tid, NULL))
+			return (error("error in suspending exec of thread", data));
+	}
+	return (0);
 }

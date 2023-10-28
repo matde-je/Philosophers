@@ -6,15 +6,15 @@
 #    By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/03 20:20:01 by matde-je          #+#    #+#              #
-#    Updated: 2023/10/25 13:21:06 by matde-je         ###   ########.fr        #
+#    Updated: 2023/10/28 17:17:40 by matde-je         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = philo
-SOURCES = main.c create.c end_time.c actions.c threads.c 
+SOURCES = main.c create.c end_time.c actions.c threads.c more.c
 
 OBJECTS	=	$(SOURCES:.c=.o)
-CC	=	cc -Wall -Wextra -Werror -g -pthread -fsanitize=thread
+CC	=	cc -Wall -Wextra -Werror -g -pthread #-fsanitize=thread
 
 all:		$(NAME)
 

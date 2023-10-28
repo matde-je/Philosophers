@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/26 20:25:30 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/28 19:01:46 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,7 @@ void	*monitor(void *data_ptr)
 		if (philo->data->dead == 1)
 			break ;
 		if (philo->data->finished >= philo->data->philo_num)
-		{
 			philo->data->dead = 1;
-		}
 		pthread_mutex_unlock(&philo->data->lock);
 	}
 	pthread_mutex_unlock(&philo->data->lock);
@@ -61,23 +59,25 @@ void	*supervisor(void *philo_ptr)
 
 void	supervisor2(t_philo *philo)
 {
-	pthread_mutex_lock(&philo->data->lock);
-	if (philo->eat_count == philo->data->meals_nb)
+	if (philo->data->meals_nb > 0)
 	{
-		philo->data->finished++;
-		philo->eat_count++;
+		pthread_mutex_lock(&philo->data->lock);
+		if (philo->eat_count == philo->data->meals_nb)
+		{
+			philo->data->finished++;
+			philo->eat_count++;
+		}
+		pthread_mutex_unlock(&philo->data->lock);
 	}
-	pthread_mutex_unlock(&philo->data->lock);
 	pthread_mutex_unlock(&philo->lock);
 }
 
 void	*routine(void *philo_ptr)
 {
 	t_philo	*philo;
-	int		time;
 
 	philo = (t_philo *) philo_ptr;
-	ft_usleep((philo->data->eat_time / 2) * (philo->id % 2 != 0));
+	routine3(philo);
 	while (1)
 	{
 		pthread_mutex_lock(&philo->data->lock);
@@ -89,40 +89,29 @@ void	*routine(void *philo_ptr)
 		pthread_mutex_unlock(&philo->data->lock);
 		eat(philo, philo->id % 2);
 		if (messages(4, philo) == 1)
-		{
 			break ;
-		}
-		if (philo->data->eat_time > philo->data->sleep_time)
-		{
-			time = philo->data->eat_time - philo->data->sleep_time;
-			ft_usleep(time + time / 5);
-		}
-		else
-			ft_usleep(philo->data->eat_time / 2);
+		routine2(philo);
 	}
 	return (NULL);
 }
 
-int	create_thread2(t_data *data, pthread_t tid)
+void	routine2(t_philo *philo)
 {
-	int	i;
+	int	time;
 
-	i = -1;
-	while (++i < data->philo_num)
+	if (philo->data->eat_time > philo->data->sleep_time)
 	{
-		if (pthread_join(data->tid[i], NULL))
-			return (error("error in suspending exec of thread", data));
+		time = philo->data->eat_time - philo->data->sleep_time;
+		ft_usleep(time + (time / 5));
 	}
-	i = -1;
-	while (++i < data->philo_num)
+	else
 	{
-		if (pthread_join(data->philos[i].t1, NULL))
-			return (error("error in suspending exec of thread", data));
+		if (philo->data->death_time - (philo->data->eat_time * 2) < 100)
+			return ;
+		else
+		{
+			time = philo->data->eat_time / 2;
+			ft_usleep(time);
+		}
 	}
-	if (data->meals_nb > 0)
-	{
-		if (pthread_join(tid, NULL))
-			return (error("error in suspending exec of thread", data));
-	}
-	return (0);
 }
