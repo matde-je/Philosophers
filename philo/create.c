@@ -6,13 +6,12 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/28 16:53:11 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/29 23:07:24 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "philo.h"
 
-//size of a struct is the sum of the sizes of its members
 int	create_data(t_data *data, int argc, char **argv)
 {
 	data->philo_num = (int) ft_atoi(argv[1]);
@@ -47,6 +46,7 @@ int	create_data2(t_data *data)
 	data->dead = 0;
 	data->finished = 0;
 	pthread_mutex_init(&data->lock, NULL);
+	pthread_mutex_init(&data->lock2, NULL);
 	return (0);
 }
 
@@ -67,40 +67,34 @@ void	create_philo_fork(t_data *data)
 	i = -1;
 	while (++i < data->philo_num)
 		pthread_mutex_init(&data->forks[i], NULL);
-	data->philos[0].l_fork = &data->forks[0];
-	data->philos[0].r_fork = &data->forks[data->philo_num - 1];
 	i = 0;
-	while (++i < data->philo_num)
+	while (i < data->philo_num -1)
 	{
 		data->philos[i].l_fork = &data->forks[i];
-		data->philos[i].r_fork = &data->forks[i - 1];
+		data->philos[i].r_fork = &data->forks[i + 1];
+		i++;
 	}
+	data->philos[i].r_fork = &data->forks[i];
+	data->philos[i].l_fork = &data->forks[0];
 }
 
 int	create_thread(t_data *data)
 {
 	int			i;
-	pthread_t	tid;
 
+	i = -1;
 	data->start_time = get_time();
-	if (data->meals_nb > 0)
-	{
-		if (pthread_create(&tid, NULL, &monitor, &data->philos[0]))
-			return (error("error in thread creation", data));
-	}
-	i = -1;
-	while (++i < data->philo_num)
-	{
-		if (pthread_create(&data->philos[i].t1, NULL, &supervisor, \
-			&data->philos[i]))
-			return (error("error in thread creation", data));
-	}
-	i = -1;
 	while (++i < data->philo_num)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
 			return (error("error in thread creation", data));
+		usleep(100);
 	}
-	create_thread2(data, tid);
+	i = -1;
+	while (++i < data->philo_num)
+	{
+		if (pthread_join(data->tid[i], NULL))
+			return (error("error in suspending exec of thread", data));
+	}
 	return (0);
 }

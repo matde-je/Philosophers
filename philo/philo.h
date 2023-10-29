@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/28 16:51:21 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/29 23:31:40 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 typedef struct s_philo
 {
 	struct s_data		*data;
-	pthread_t			t1;
 	int					id;
 	int					eat_count;
 	int					eating;
@@ -52,6 +51,7 @@ typedef struct s_data
 	long unsigned int	start_time;
 	pthread_mutex_t		*forks;
 	pthread_mutex_t		lock;
+	pthread_mutex_t		lock2;
 }						t_data;
 
 int					check_args(int argc, char	**argv);
@@ -59,27 +59,18 @@ int					ft_atoi(char *str);
 
 void				create_philo_fork(t_data *data);
 int					create_data(t_data *data, int argc, char **argv);
-int					create(t_data *data, int argc, char **argv);
 
 int					error(char *str, t_data *data);
 unsigned long int	get_time(void);
-int					ft_usleep(long unsigned int time);
 void				ft_exit(t_data *data);
 
 int					messages(int i, t_philo *philo);
 int					messages2(int i, t_philo *philo, unsigned int time);
-void				eat(t_philo *philo, int odd);
-void				*monitor(void *data_ptr);
+void				eat(t_philo *philo);
 void				*routine(void *philo_ptr);
-void				*supervisor(void *data_ptr);
 int					create_thread(t_data *data);
-void				eat2(t_philo *philo, int odd);
-int					create_thread2(t_data *data, pthread_t tid);
-void				supervisor2(t_philo *philo_ptr);
-void				routine2(t_philo *philo);
-void				eat_even(t_philo *philo);
-void				eat_odd(t_philo *philo);
-void				routine3(t_philo *philo);
+void				eat2(t_philo *philo);
+int					routine2(t_philo *philo);
 int					create_data2(t_data *data);
 
 #endif
