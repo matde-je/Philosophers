@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:18:57 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/29 22:12:41 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:22:42 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	messages(int i, t_philo *philo)
 		pthread_mutex_unlock(&philo->data->lock);
 		return (1);
 	}
-	if (i == 2 && philo->data->dead == 0)
+	else if (i == 2 && philo->data->dead == 0)
 	{
 		e = 0;
 		printf("%u %i %s\n", time, philo->id, EAT);

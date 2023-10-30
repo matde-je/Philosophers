@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/29 23:07:24 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 13:32:01 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,15 +67,16 @@ void	create_philo_fork(t_data *data)
 	i = -1;
 	while (++i < data->philo_num)
 		pthread_mutex_init(&data->forks[i], NULL);
-	i = 0;
-	while (i < data->philo_num -1)
+			data->philos[i].l_fork = &data->forks[i];
+	i = -1;
+	while (++i < data->philo_num -1)
 	{
 		data->philos[i].l_fork = &data->forks[i];
 		data->philos[i].r_fork = &data->forks[i + 1];
-		i++;
 	}
 	data->philos[i].r_fork = &data->forks[i];
 	data->philos[i].l_fork = &data->forks[0];
+
 }
 
 int	create_thread(t_data *data)
@@ -88,7 +89,6 @@ int	create_thread(t_data *data)
 	{
 		if (pthread_create(&data->tid[i], NULL, &routine, &data->philos[i]))
 			return (error("error in thread creation", data));
-		usleep(100);
 	}
 	i = -1;
 	while (++i < data->philo_num)

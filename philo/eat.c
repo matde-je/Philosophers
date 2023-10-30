@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/27 18:43:18 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/29 23:20:46 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 14:45:34 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,13 @@ void	eat2(t_philo *philo)
 	pthread_mutex_unlock(philo->l_fork);
 	if (messages(3, philo) == 1)
 		return ;
-	if (philo->data->sleep_time > philo->data->death_time)
+	if (philo->data->sleep_time > philo->data->death_time \
+		|| (philo->data->sleep_time + philo->data->eat_time)  > philo->data->death_time)
 	{
 		usleep(philo->data->death_time * 1000);
 		messages(0, philo);
 	}
 	else
 		usleep(philo->data->sleep_time * 1000);
+	messages(0, philo);
 }
