@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/16 11:19:06 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/30 15:16:46 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:22:07 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,8 @@ void				eat2(t_philo *philo);
 int					meals(t_philo *philo);
 int					create_data2(t_data *data);
 int					check_dead(t_philo *philo);
-t_philo				*even_wait(void *philo_ptr);
+t_philo				*odd_wait(void *philo_ptr);
+int					eat_big(t_philo *philo);
+void				eat3(t_philo *philo);
 
 #endif

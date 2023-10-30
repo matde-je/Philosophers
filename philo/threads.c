@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:21 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/30 15:18:11 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 20:22:16 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	*routine(void *philo1)
 {
-	t_philo *philo;
+	t_philo	*philo;
 
-	philo = even_wait(philo1);
+	philo = odd_wait(philo1);
 	while (1)
 	{
 		if (check_dead(philo) == 1)
@@ -24,27 +24,34 @@ void	*routine(void *philo1)
 		eat(philo);
 		if (messages(4, philo) == 1)
 			break ;
-		if (philo->data->eat_time > philo->data->sleep_time)
-		{
-			if ((philo->data->death_time - philo->data->sleep_time - philo->data->eat_time) < 20)
-			{
-				while (1)
-				{
-					if (check_dead(philo) == 1)
-						break;
-				}
-				break ;
-			}
-			else
-				usleep((philo->data->eat_time - philo->data->sleep_time) * 1000);
-		}
+		if (eat_big(philo) == 1)
+			break ;
 		if (philo->data->meals_nb > 0)
 		{
 			if (meals(philo) == 1)
-			break ;
+				break ;
 		}
+		if (check_dead(philo) == 1)
+			break ;
 	}
 	return (NULL);
+}
+
+int	eat_big(t_philo *philo)
+{
+	if (philo->data->death_time <= philo->data->eat_time * 2)
+	{
+		while (1)
+		{
+			if (check_dead(philo) == 1)
+				return (1);
+		}
+		return (1);
+	}
+	else if (philo->data->eat_time > philo->data->sleep_time \
+		&& philo->data->death_time - 10 > philo->data->eat_time * 2)
+		usleep((philo->data->eat_time - philo->data->sleep_time) * 1000);
+	return (0);
 }
 
 int	meals(t_philo *philo)
@@ -84,13 +91,13 @@ int	check_dead(t_philo *philo)
 	return (0);
 }
 
-t_philo *even_wait(void *philo_ptr)
+t_philo	*odd_wait(void *philo_ptr)
 {
 	t_philo	*philo;
 
 	philo = (t_philo *) philo_ptr;
 	philo->time_to_die = philo->data->death_time + get_time();
-	if (philo->id % 2 == 0)
+	if (philo->id % 2 != 0)
 	{
 		messages(4, philo);
 		if (philo->data->eat_time < philo->data->death_time)

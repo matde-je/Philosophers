@@ -6,7 +6,7 @@
 /*   By: matde-je <matde-je@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/07/16 17:27:30 by matde-je          #+#    #+#             */
-/*   Updated: 2023/10/30 13:32:01 by matde-je         ###   ########.fr       */
+/*   Updated: 2023/10/30 19:55:38 by matde-je         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ void	create_philo_fork(t_data *data)
 	i = -1;
 	while (++i < data->philo_num)
 		pthread_mutex_init(&data->forks[i], NULL);
-			data->philos[i].l_fork = &data->forks[i];
 	i = -1;
 	while (++i < data->philo_num -1)
 	{
@@ -76,7 +75,6 @@ void	create_philo_fork(t_data *data)
 	}
 	data->philos[i].r_fork = &data->forks[i];
 	data->philos[i].l_fork = &data->forks[0];
-
 }
 
 int	create_thread(t_data *data)
